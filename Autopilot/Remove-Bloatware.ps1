@@ -45,7 +45,11 @@ function Write-LogEntry {
             Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $LogFilePath -ErrorAction Stop
         }
         catch [System.Exception] {
-            Write-Warning -Message $LogText
+            if ($Severity -eq 1) {
+                Write-Output -Message $Value
+            } else {
+                Write-Warning -Message $Value
+            }
         }
     }
 
