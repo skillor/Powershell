@@ -45,7 +45,7 @@ function Write-LogEntry {
             Out-File -InputObject $LogText -Append -NoClobber -Encoding Default -FilePath $LogFilePath -ErrorAction Stop
         }
         catch [System.Exception] {
-            Write-Warning -Message "Unable to append log entry to Remove-HP-Bloatware.log file. Error message at line $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)"
+            Write-Warning -Message $LogText
         }
     }
 
