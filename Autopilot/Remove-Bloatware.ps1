@@ -172,7 +172,7 @@ $UninstallPackages = @(
     "Microsoft.XboxSpeechToTextOverlay"
     "Microsoft.XboxApp"
     "Microsoft.Wallet"
-    "Microsoft.SkyeApp"
+    "Microsoft.SkypeApp"
     "Microsoft.BingWeather"
     "Tile.TileWindowsApplication"
 )
