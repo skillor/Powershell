@@ -100,13 +100,37 @@ Else {
 
 $HPCOuninstall = "C:\Program Files (x86)\InstallShield Installation Information\{6468C4A5-E47E-405F-B675-A70A70983EA6}\setup.exe"
 
-#copy uninstall file
-xcopy /y .\uninstallHPCO.iss C:\Windows\install\
-Write-LogEntry -Value  "Succesfully copied file uninstallHPCO.iss to C:\Windows\install " -Severity 1
+#create uninstall file
+$uninstallHPCO = @"
+[InstallShield Silent]
+Version=v7.00
+File=Response File
+[File Transfer]
+OverwrittenReadOnly=NoToAll
+[{6468C4A5-E47E-405F-B675-A70A70983EA6}-DlgOrder]
+Dlg0={6468C4A5-E47E-405F-B675-A70A70983EA6}-MessageBox-0
+Count=2
+Dlg1={6468C4A5-E47E-405F-B675-A70A70983EA6}-SdFinish-0
+[{6468C4A5-E47E-405F-B675-A70A70983EA6}-MessageBox-0]
+Result=6
+[Application]
+Name=HP Connection Optimizer
+Version=2.0.19.0
+Company=HP
+Lang=0413
+[{6468C4A5-E47E-405F-B675-A70A70983EA6}-SdFinish-0]
+Result=1
+bOpt1=0
+bOpt2=0
+"@
+$uninstallHPCOFile = "$($env:USERPROFILE)\Desktop\uninstallHPCO.iss"
+$uninstallHPCO | Out-File $uninstallHPCOFile
+
+Write-LogEntry -Value  "Succesfully created file uninstallHPCO.iss on Desktop " -Severity 1
 
 if (Test-Path $HPCOuninstall -PathType Leaf){
 Try {
-        & $HPCOuninstall -runfromtemp -l0x0413  -removeonly -s -f1C:\Windows\install\uninstallHPCO.iss
+        & $HPCOuninstall -runfromtemp -l0x0413  -removeonly -s -f1$uninstallHPCOFile
         Write-LogEntry -Value "Successfully removed HP Connection Optimizer" -Severity 1
         }
 Catch {
@@ -302,8 +326,8 @@ Else {
 }
 
 #Clean up uninstall file for HP Connection Optimizer
-Remove-Item -Path C:\Windows\install\uninstallHPCO.iss -Force
-Write-LogEntry -Value  "Succesfully deleted file C:\Windows\install\uninstallHPCO.iss " -Severity 1
+Remove-Item -Path $uninstallHPCOFile -Force
+Write-LogEntry -Value  "Succesfully deleted file uninstallHPCO.iss" -Severity 1
 
 powercfg.exe -x -monitor-timeout-ac 0
 powercfg.exe -x -monitor-timeout-dc 0
