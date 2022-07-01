@@ -67,33 +67,33 @@ Else {
 
 #Remove HP Support Assistant silently
 
-$HPSAuninstall = "C:\Program Files (x86)\HP\HP Support Framework\UninstallHPSA.exe"
+# $HPSAuninstall = "C:\Program Files (x86)\HP\HP Support Framework\UninstallHPSA.exe"
 
-if (Test-Path -Path "HKLM:\Software\WOW6432Node\Hewlett-Packard\HPActiveSupport") {
-Try {
-        Remove-Item -Path "HKLM:\Software\WOW6432Node\Hewlett-Packard\HPActiveSupport"
-        Write-LogEntry -Value  "HP Support Assistant regkey deleted $($_.Exception.Message)" -Severity 1
-    }
-Catch {
-        Write-LogEntry -Value  "Error retreiving registry key for HP Support Assistant: $($_.Exception.Message)" -Severity 3
-        }
-}
-Else {
-        Write-LogEntry -Value  "HP Support Assistant regkey not found" -Severity 1
-}
+# if (Test-Path -Path "HKLM:\Software\WOW6432Node\Hewlett-Packard\HPActiveSupport") {
+# Try {
+#         Remove-Item -Path "HKLM:\Software\WOW6432Node\Hewlett-Packard\HPActiveSupport"
+#         Write-LogEntry -Value  "HP Support Assistant regkey deleted $($_.Exception.Message)" -Severity 1
+#     }
+# Catch {
+#         Write-LogEntry -Value  "Error retreiving registry key for HP Support Assistant: $($_.Exception.Message)" -Severity 3
+#         }
+# }
+# Else {
+#         Write-LogEntry -Value  "HP Support Assistant regkey not found" -Severity 1
+# }
 
-if (Test-Path $HPSAuninstall -PathType Leaf) {
-    Try {
-        & $HPSAuninstall /s /v/qn UninstallKeepPreferences=FALSE
-        Write-LogEntry -Value "Successfully removed provisioned package: HP Support Assistant silently" -Severity 1
-    }
-        Catch {
-        Write-LogEntry -Value  "Error uninstalling HP Support Assistant: $($_.Exception.Message)" -Severity 3
-        }
-}
-Else {
-        Write-LogEntry -Value  "HP Support Assistant Uninstaller not found" -Severity 1
-}
+# if (Test-Path $HPSAuninstall -PathType Leaf) {
+#     Try {
+#         & $HPSAuninstall /s /v/qn UninstallKeepPreferences=FALSE
+#         Write-LogEntry -Value "Successfully removed provisioned package: HP Support Assistant silently" -Severity 1
+#     }
+#         Catch {
+#         Write-LogEntry -Value  "Error uninstalling HP Support Assistant: $($_.Exception.Message)" -Severity 3
+#         }
+# }
+# Else {
+#         Write-LogEntry -Value  "HP Support Assistant Uninstaller not found" -Severity 1
+# }
 
 
 #Remove HP Connection Optimizer
@@ -124,7 +124,7 @@ $UninstallPackages = @(
     "AD2F1837.HPPCHardwareDiagnosticsWindows"
     "AD2F1837.HPPowerManager"
     "AD2F1837.HPPrivacySettings"
-    "AD2F1837.HPSupportAssistant"
+    # "AD2F1837.HPSupportAssistant"
     "AD2F1837.HPSureShieldAI"
     "AD2F1837.HPSystemInformation"
     "AD2F1837.HPQuickDrop"
