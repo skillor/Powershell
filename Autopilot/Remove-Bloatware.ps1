@@ -9,6 +9,8 @@ Do not not forget to include uninstallHPCO.iss when creating your Win32 app by s
 
 #>
 
+Add-Type -AssemblyName PresentationCore, PresentationFramework
+
 
 function Write-LogEntry {
         param (
