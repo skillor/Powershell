@@ -329,6 +329,25 @@ Else {
 Remove-Item -Path $uninstallHPCOFile -Force
 Write-LogEntry -Value  "Succesfully deleted file uninstallHPCO.iss" -Severity 1
 
+$WshShell = New-Object -comObject WScript.Shell
+$Files = Get-ChildItem -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs" -Filter *.lnk -Recurse
+foreach ($File in $Files) {
+    $FilePath = $File.FullName
+    $Shortcut = $WshShell.CreateShortcut($FilePath)
+    $Target = $Shortcut.TargetPath
+    if (Test-Path -Path $Target) {
+    } else {
+        Write-LogEntry -Value "Invalid Shortcut: $($File.BaseName) removed." -Severity 1
+        try {
+            Remove-Item -Path $FilePath
+        } catch {
+            Write-LogEntry -Value "ERROR: $($File.BaseName) could not be removed." -Severity 3
+        }
+    }
+}
+
+Write-LogEntry -Value "Removed broken Shortcuts" -Severity 1
+
 powercfg.exe -x -monitor-timeout-ac 0
 powercfg.exe -x -monitor-timeout-dc 0
 powercfg.exe -x -disk-timeout-ac 0
